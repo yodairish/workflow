@@ -1,0 +1,68 @@
+{
+  "preset": "airbnb",
+  "exnext": true,
+  
+  "requireCurlyBraces": [
+    "if",
+    "else",
+    "for",
+    "while",
+    "do",
+    "try",
+    "catch",
+    "case"
+  ],
+  "requireSpaceBeforeKeywords": [
+    "else",
+    "catch"
+  ],
+  "disallowSpaceAfterKeywords": [
+    "function"
+  ],
+  "requireSpacesInFunctionExpression": {
+    "beforeOpeningCurlyBrace": true
+  },
+  "requireSpacesInAnonymousFunctionExpression": {
+    "beforeOpeningCurlyBrace": true
+  },
+  "requireSpacesInNamedFunctionExpression": {
+    "beforeOpeningCurlyBrace": true
+  },
+  "requireSpacesInFunctionDeclaration": {
+    "beforeOpeningCurlyBrace": true
+  },
+  "disallowSpacesInCallExpression": true,
+  "requireBlocksOnNewline": true,
+  "requirePaddingNewlinesBeforeKeywords": [
+    "do",
+    "for",
+    "if",
+    "switch",
+    "try",
+    "while",
+    "return",
+    "function"
+  ],
+  "requireSpaceBeforeObjectValues": true,
+  "disallowMultipleLineStrings": true,
+  "disallowOperatorBeforeLineBreak": true,
+  "disallowKeywordsOnNewLine": [
+    "else",
+    "catch"
+  ],
+  "maximumLineLength": 80,
+  "requireSpaceAfterLineComment": true,
+  "disallowNewlineBeforeBlockStatements": true,
+  "validateParameterSeparator": ", ",
+  "additionalRules": [
+    "node_modules/jscs-jsdoc/lib/rules/*.js"
+  ],
+  "jsDoc": {
+    "enforceExistence": true
+  },
+
+  "excludeFiles": [
+    "node_modules/**",
+    "bower_components/**"
+  ]
+}

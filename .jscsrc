@@ -2,6 +2,7 @@
   "preset": "airbnb",
   "esnext": true,
   
+  "disallowTrailingWhitespace": null,
   "requireCurlyBraces": [
     "if",
     "else",

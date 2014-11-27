@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+'use strict';
+
 var exec = require('child_process').exec;
 
 diff();
@@ -8,7 +10,7 @@ diff();
  * Check git diff files
  */
 function diff() {
-  exec('git diff --cached --name-only', function(error, stdout, stderr) {
+  exec('git diff --cached --name-only', function(error, stdout) {
     var files = getDiffFiles(stdout);
 
     lint(files);
@@ -25,16 +27,14 @@ function getDiffFiles(stdout) {
       files = {
         js: [],
         scss: []
-      },
-      jsDetect = /.js$/,
-      scssDetect = /.scss$/;
+      };
   
   if (stdout) {
     stdout.split('\n').forEach(function(file) {
       if (file) {
-        if (jsDetect.test(file)) {
+        if (/.js$/.test(file)) {
           files.js.push(folder + file);
-        } else if (scssDetect.test(file)) {
+        } else if (/.scss$/.test(file)) {
           files.scss.push(folder + file);
         }
       }
@@ -70,7 +70,8 @@ function lintFiles(files, type) {
   var task = type + 'lint',
       gulpCmd = 'gulp ' + task + ' -files=' + files.join(',');
 
-  exec(gulpCmd, function(error, stdout, stderr) {
+  exec(gulpCmd, function(error) {
+    // mb need add checking by stdout
     if (error) {
       console.log(error);
       console.log('\nBefore commit, you should fix the errors');

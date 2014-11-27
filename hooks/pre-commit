@@ -25,14 +25,16 @@ function getDiffFiles(stdout) {
       files = {
         js: [],
         scss: []
-      };
+      },
+      jsDetect = /.js$/,
+      scssDetect = /.scss$/;
   
   if (stdout) {
     stdout.split('\n').forEach(function(file) {
       if (file) {
-        if (file.indexOf('.js')) {
+        if (jsDetect.test(file)) {
           files.js.push(folder + file);
-        } else if (file.indexOf('.scss')) {
+        } else if (scssDetect.test(file)) {
           files.scss.push(folder + file);
         }
       }
@@ -67,9 +69,11 @@ function lintFiles(files, type) {
   
   var task = type + 'lint',
       gulpCmd = 'gulp ' + task + ' -files=' + files.join(',');
-  
+
   exec(gulpCmd, function(error, stdout, stderr) {
     if (error) {
+      console.log(error);
+      console.log('\nBefore commit, you should fix the errors');
       process.exit(1);
     } else {
       process.exit(0);

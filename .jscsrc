@@ -1,6 +1,6 @@
 {
   "preset": "airbnb",
-  "exnext": true,
+  "esnext": true,
   
   "requireCurlyBraces": [
     "if",
@@ -40,12 +40,10 @@
     "switch",
     "try",
     "while",
-    "return",
-    "function"
+    "return"
   ],
   "requireSpaceBeforeObjectValues": true,
   "disallowMultipleLineStrings": true,
-  "disallowOperatorBeforeLineBreak": true,
   "disallowKeywordsOnNewLine": [
     "else",
     "catch"

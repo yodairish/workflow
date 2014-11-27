@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Get the files sent as an argument
  * @return {?Array}
@@ -6,11 +8,11 @@ exports.paramFiles = function paramFiles() {
   var argv = process.argv,
       chosen = false,
       files = [];
-  
+
   argv.forEach(function(arg) {
     if (arg.indexOf('-files') === 0 || arg.indexOf('-file') === 0) {
       var value = arg.split('=')[1];
-      
+
       if (value) {
         value.split(',').forEach(function(file) {
           if (file) {
@@ -18,11 +20,11 @@ exports.paramFiles = function paramFiles() {
           }
         });
       }
-      
+
       chosen = true;
     }
   });
-  
+
   return (chosen ? files : null);
 };
 
@@ -56,10 +58,10 @@ function filesFromPath(path, type) {
   var lastLetter;
   path = path.trim();
   lastLetter = path[path.length - 1];
-  
+
   if (lastLetter !== '/' && lastLetter !== '\\') {
     path += '/';
   }
-  
+
   return path + '**/*.' + type;
 }

@@ -16,9 +16,6 @@
     "else",
     "catch"
   ],
-  "disallowSpaceAfterKeywords": [
-    "function"
-  ],
   "requireSpacesInFunctionExpression": {
     "beforeOpeningCurlyBrace": true
   },

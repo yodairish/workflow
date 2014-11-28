@@ -8,13 +8,14 @@ Basic set of plugins and instructions that you can use when starting a new proje
 
   - Copy files to root of your new project.
 
-  - Change in `packege.json` and `bower.json` the required fields like 'name', 'description', 'authors'.. then use `npm install`.
+  - Change in `packege.json` and `bower.json` the required fields like `name`, `description`, `authors`.. then use `npm install`.
   
   - Move files from `hooks` folder to `.git/hooks`.
 
 ## Style guides
 
   JS: [style guide](https://github.com/yodairish/javascript).
+  
   CSS/HTML: [style guide](https://github.com/yodairish/sass-guide).
   
 ## List of plugins
@@ -47,7 +48,7 @@ Basic set of plugins and instructions that you can use when starting a new proje
 
 ## Helpful modules
 
-  - paramFiles.js: allow you to send the selected files to the gulp task.
+  - paramFiles: allow you to send the selected files to the gulp task.
 
 ## License
 

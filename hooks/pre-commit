@@ -54,7 +54,7 @@ function lint(files) {
   }
   
   lintFiles(files.js, 'js');
-  lintFiles(files.scss, 'scss');
+  lintFiles(files.scss, 'css');
 }
 
 /**

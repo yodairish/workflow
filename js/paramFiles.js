@@ -5,9 +5,9 @@
  * @return {?Array}
  */
 exports.paramFiles = function paramFiles() {
-  var argv = process.argv,
-      chosen = false,
-      files = [];
+  var argv = process.argv;
+  var chosen = false;
+  var files = [];
 
   argv.forEach(function(arg) {
     if (arg.indexOf('-files') === 0 || arg.indexOf('-file') === 0) {
@@ -29,12 +29,31 @@ exports.paramFiles = function paramFiles() {
 };
 
 /**
- * Get path to scss files
+ * Get path to files by type
+ * @param {String} path
+ * @param {String} type
+ * @return {String}
+ */
+function filesFromPath(path, type) {
+  var lastLetter;
+
+  path = path.trim();
+  lastLetter = path[path.length - 1];
+
+  if (lastLetter !== '/' && lastLetter !== '\\') {
+    path += '/';
+  }
+
+  return path + '**/*.' + type;
+}
+
+/**
+ * Get path to css files
  * @param {String} path
  * @return {String}
  */
-exports.scss = function scss(path) {
-  return filesFromPath(path, 'scss');
+exports.css = function scss(path) {
+  return filesFromPath(path, 'css');
 };
 
 /**
@@ -47,21 +66,3 @@ exports.js = function js(path) {
 };
 
 exports.filesFromPath = filesFromPath;
-
-/**
- * Get path to files by type
- * @param {String} path
- * @param {String} type
- * @return {String}
- */
-function filesFromPath(path, type) {
-  var lastLetter;
-  path = path.trim();
-  lastLetter = path[path.length - 1];
-
-  if (lastLetter !== '/' && lastLetter !== '\\') {
-    path += '/';
-  }
-
-  return path + '**/*.' + type;
-}

@@ -18,24 +18,25 @@ function diff() {
 }
 
 /**
- * Get all js and scss diff files
+ * Get all js and css diff files
  * @param {string} result of git diff
  * @return {Object} object with files arrays
  */
 function getDiffFiles(stdout) {
-  var folder = process.cwd() + '/',
-      files = {
-        js: [],
-        scss: []
-      };
+  var folder = process.cwd() + '/';
+  var files = {
+    js: [],
+    css: []
+  };
   
   if (stdout) {
     stdout.split('\n').forEach(function(file) {
       if (file) {
         if (/.js$/.test(file)) {
           files.js.push(folder + file);
-        } else if (/.scss$/.test(file)) {
-          files.scss.push(folder + file);
+
+        } else if (/.css$/.test(file)) {
+          files.css.push(folder + file);
         }
       }
     });
@@ -45,16 +46,16 @@ function getDiffFiles(stdout) {
 }
 
 /**
- * run gulp lint tasks for js and scss files
+ * run gulp lint tasks for js and css files
  * @param {Object} object with files arrays
  */
 function lint(files) {
-  if (!files.js.length && !files.scss.length) {
+  if (!files.js.length && !files.css.length) {
     process.exit(0);
   }
   
   lintFiles(files.js, 'js');
-  lintFiles(files.scss, 'css');
+  lintFiles(files.css, 'css');
 }
 
 /**
@@ -67,8 +68,8 @@ function lintFiles(files, type) {
     return;
   }
   
-  var task = type + 'lint',
-      gulpCmd = 'gulp ' + task + ' -files=' + files.join(',');
+  var task = type + 'lint';
+  var gulpCmd = 'gulp ' + task + ' -files=' + files.join(',');
 
   exec(gulpCmd, function(error) {
     // mb need add checking by stdout
@@ -76,6 +77,7 @@ function lintFiles(files, type) {
       console.log(error);
       console.log('\nBefore commit, you should fix the errors');
       process.exit(1);
+
     } else {
       process.exit(0);
     }

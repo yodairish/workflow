@@ -1,78 +1,38 @@
 'use strict';
 
-var gulp = require('gulp'),
-    merge = require('merge-stream'),
-    pf = require('./js/paramFiles'),
-    sourcemaps = require('gulp-sourcemaps'),
-    // css
-    csscomb = require('gulp-csscomb'),
-    autoprefixer = require('autoprefixer-core'),
-    csswring = require('csswring'),
-    postcss = require('gulp-postcss'),
-    // js
-    sass = require('gulp-sass'),
-    jshint = require('gulp-jshint'),
-    jscs = require('gulp-jscs'),
-    webpack = require('gulp-webpack'),
-    // CONSTANTS
-    SCSS_PATH = 'css',
-    JS_PATH = 'js',
-    COMPONENT_PATH = 'components',
-    PUBLIC_CSS = 'public/css',
-    PUBLIC_JS = 'public/js',
-    JS_ENTRY_POINTS = [
-      JS_PATH + '/main.js'
-    ];
+var gulp = require('gulp');
+var pf = require('./js/paramFiles');
+//css
+var csscomb = require('gulp-csscomb');
+// js
+var eslint = require('gulp-eslint');
+var jscs = require('gulp-jscs');
+var webpack = require('gulp-webpack');
+var webpackConfig = require('./webpack.config.js');
+// constants
+var SRC_FOLDER = './src';
+var PUBLIC_FOLDER = './public';
 
 /**
  * Linting SCSS files
  * Possible send files to param -files=...
  */
 gulp.task('csslint', function() {
-  var files = pf.paramFiles(),
-      stream,
-      global,
-      components;
+  var files = pf.paramFiles();
+  var stream;
 
   if (files) {
     stream = gulp.src(files)
-      .pipe(csscomb(__dirname + '/.csscomb.json'))
+      .pipe(csscomb('.csscomb.json'))
       .pipe(gulp.dest('./'));
 
   } else {
-    global = gulp.src(pf.scss(SCSS_PATH))
-      .pipe(csscomb(__dirname + '/.csscomb.json'))
-      .pipe(gulp.dest(SCSS_PATH));
-
-    components = gulp.src(pf.scss(COMPONENT_PATH))
-      .pipe(csscomb(__dirname + '/.csscomb.json'))
-      .pipe(gulp.dest(COMPONENT_PATH));
-
-    stream = merge(global, components);
+    stream = gulp.src(pf.css(SRC_FOLDER))
+      .pipe(csscomb('.csscomb.json'))
+      .pipe(gulp.dest(SRC_FOLDER));
   }
 
   return stream;
-});
-
-/**
- * Processing SCSS files
- */
-gulp.task('css', ['csslint'], function() {
-  var processors = [
-    autoprefixer({
-      browsers: ['last 1 version']
-    }),
-    csswring({
-      removeAllComments: true
-    })
-  ];
-
-  return gulp.src([pf.scss(SCSS_PATH)])
-    .pipe(sourcemaps.init())
-    .pipe(sass())
-    .pipe(postcss(processors))
-    .pipe(sourcemaps.write(PUBLIC_CSS + '/map'))
-    .pipe(gulp.dest(PUBLIC_CSS));
 });
 
 /**
@@ -83,24 +43,21 @@ gulp.task('jslint', function() {
   var files = pf.paramFiles();
 
   if (!files) {
-    files = [pf.js(JS_PATH), pf.js(COMPONENT_PATH)];
+    files = pf.js(SRC_FOLDER);
   }
 
   return gulp.src(files)
-    .pipe(jshint.extract())
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'))
-    .pipe(jscs())
-    .pipe(jshint.reporter('fail'));
+    .pipe(eslint())
+    .pipe(eslint.format());
+    .pipe(jscs());
 });
 
-/**
- * Processing JS files
- */
-gulp.task('js', ['jslint'], function() {
-  return gulp.src(JS_ENTRY_POINTS)
-    .pipe(webpack())
-    .pipe(gulp.dest(PUBLIC_JS));
+gulp.task('lint', ['csslint', 'jslint']);
+
+gulp.task('build', ['lint'], function() {
+  return gulp.src('')
+    .pipe(webpack(webpackConfig))
+    .pipe(gulp.dest(PUBLIC_FOLDER));
 });
 
-gulp.task('default', ['js', 'css']);
+gulp.task('default', ['build']);
